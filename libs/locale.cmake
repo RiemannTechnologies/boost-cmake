@@ -35,25 +35,17 @@ if(NOT ICU_FOUND AND NOT ICONV_FOUND AND NOT USE_WINDOWS)
   return()
 endif()
 
+file(GLOB locale_src
+        ${ICU_SRCS}
+        ${BOOST_SOURCE}/libs/locale/src/boost/encoding/*.cpp
+        ${BOOST_SOURCE}/libs/locale/src/boost/shared/*.cpp
+        ${BOOST_SOURCE}/libs/locale/src/boost/util/*.cpp
+        )
 _add_boost_lib(
   NAME locale
   SOURCES
-    ${ICU_SRCS}
-    ${BOOST_SOURCE}/libs/locale/src/encoding/codepage.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/date_time.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/format.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/formatting.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/generator.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/ids.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/localization_backend.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/message.cpp
-    ${BOOST_SOURCE}/libs/locale/src/shared/mo_lambda.cpp
-    ${BOOST_SOURCE}/libs/locale/src/util/codecvt_converter.cpp
-    ${BOOST_SOURCE}/libs/locale/src/util/default_locale.cpp
-    ${BOOST_SOURCE}/libs/locale/src/util/info.cpp
-    ${BOOST_SOURCE}/libs/locale/src/util/locale_data.cpp
+    locale_src
 )
-
 # Convenience interface library to link deps to both main library and tests
 add_library(Boost_locale_deps INTERFACE)
 target_link_libraries(Boost_locale PRIVATE Boost_locale_deps)
